@@ -1,6 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=Steam Big Picture
+Name=Steam Gamepad UI
 Comment=Steam Big Picture session
 Exec=gamescope-session-plus steam
 Type=Application
