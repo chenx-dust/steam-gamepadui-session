@@ -34,6 +34,7 @@ pkgver() {
 package() {
 	cd "$srcdir/${_gitdir}"
 	cp -rv "${srcdir}/${_gitdir}/usr" "${pkgdir}/usr"
+	cp -rv "${srcdir}/${_gitdir}/etc" "${pkgdir}/etc"
 	install -Dm644 "${srcdir}/${_gitdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 
 	# font workaround for initial big picture mode startup
