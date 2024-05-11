@@ -1,5 +1,7 @@
 #!/bin/sh
 
+source /etc/default/steamos-nested-desktop
+
 # For wayland input method support
 unset QT_IM_MODULE
 unset GTK_IM_MODULE
@@ -12,7 +14,6 @@ unset LD_PRELOAD
 mkdir $XDG_RUNTIME_DIR/nested_plasma -p
 cat <<EOF > $XDG_RUNTIME_DIR/nested_plasma/kwin_wayland_wrapper
 #!/bin/bash
-source /etc/default/steamos-nested-desktop
 /usr/bin/kwin_wayland_wrapper --width ${STEAMOS_NESTED_DESKTOP_WIDTH:-1280} --height ${STEAMOS_NESTED_DESKTOP_HEIGHT:-800} --no-lockscreen \$@
 EOF
 chmod a+x $XDG_RUNTIME_DIR/nested_plasma/kwin_wayland_wrapper
