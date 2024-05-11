@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# For wayland input method support
+unset QT_IM_MODULE
+unset GTK_IM_MODULE
+
 # Remove the performance overlay, it meddles with some tasks
 unset LD_PRELOAD
 
