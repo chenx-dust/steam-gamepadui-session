@@ -12,6 +12,9 @@ unset LC_ALL
 # Remove the performance overlay, it meddles with some tasks
 unset LD_PRELOAD
 
+# Set home
+cd ~
+
 ## Shadow kwin_wayland_wrapper so that we can pass args to kwin wrapper
 ## whilst being launched by plasma-session
 mkdir $XDG_RUNTIME_DIR/nested_plasma -p
