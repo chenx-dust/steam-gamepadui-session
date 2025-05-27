@@ -95,7 +95,7 @@ if [ -f "/usr/share/steamos/steamos.png" ] ; then
   export STEAM_UPDATEUI_PNG_BACKGROUND=/usr/share/steamos/steamos.png
 fi
 
-export CURSOR_FILE="${HOME}/.local/share/Steam/tenfoot/resource/images/cursors/arrow.png"
+export CURSOR_FILE="/usr/share/steamos/steamos-cursor.png"
 
 export CLIENTCMD="steam -gamepadui -steamos3 -steampal -steamdeck"
 
