@@ -102,9 +102,9 @@ export CLIENTCMD="steam -gamepadui -steamos3 -steampal -steamdeck"
 # Workaround for Steam login issue while Steam client change propagates out of Beta
 touch "${HOME}"/.steam/root/config/SteamAppData.vdf || true
 
-if [[ -f "/etc/first-boot/bootstraplinux_ubuntu12_32.tar.xz" ]] && ! grep -q "set_bootstrap=1" "$STEAM_BOOTSTRAP_CONFIG"; then
+if [[ -f "/usr/lib/steam/bootstraplinux_ubuntu12_32.tar.xz" ]] && ! grep -q "set_bootstrap=1" "$STEAM_BOOTSTRAP_CONFIG"; then
     mkdir -p ~/.local/share/Steam
-    tar xf /etc/first-boot/bootstraplinux_ubuntu12_32.tar.xz -C ~/.local/share/Steam
+    tar xf /usr/lib/steam/bootstraplinux_ubuntu12_32.tar.xz -C ~/.local/share/Steam
     echo "set_bootstrap=1" >> "$STEAM_BOOTSTRAP_CONFIG"
 fi
 

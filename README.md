@@ -21,17 +21,15 @@ This package is tested to be compatible with the Steam client from Arch Linux of
 
 Use any AUR helpers (e.g. yay, paru, pikaur) you like to install it, or simply install it by yourself.
 
-### 3. (Important) Pre-run Preparation
-
-The Steam client installed above **MUST** be launched at least once to download and unpack latest Steam client resource. Please ensure your Internet connectivity and wait until the Steam login dialog shown.
-
-### 4. Launch the Session
+### 3. Launch the Session
 
 Log out your current session. In your desktop manager, select `Steam Gamepad UI` and log in. There might be a minute or two to wait for Steam client updating. *Enjoy it!*
 
 If still black screen, please be sure that you have launched Steam client in other desktop before, and check your Internet connectivity or completely disconnect your network. If it hangs for more then ten minutes, you may try `Ctrl+Alt+Del` to reboot your device or `Ctrl+Alt+Fn?` to switch to other session. You may check systemd log to detect problems.
 
-### 5. (Optional) Alternative Components
+### 4. (Optional) Install Other Components
+
+About overlay and input method, you could install them via optional requirement of this package.
 
 If you face with compatibility issue or known bugs on Gamescope, you may try other version of it:
 
