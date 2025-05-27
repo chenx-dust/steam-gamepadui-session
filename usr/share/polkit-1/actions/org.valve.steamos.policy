@@ -29,17 +29,6 @@
     <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/steamos-polkit-helpers/steamos-update</annotate>
   </action>
 
-  <action id="org.valve.policykit.steamos.pkexec.run-steamos-polkit-helpers/jupiter-biosupdate">
-    <description>Run the jupiter bios update helper</description>
-    <icon_name>package-x-generic</icon_name> 
-    <defaults>
-      <allow_any>yes</allow_any>
-      <allow_inactive>yes</allow_inactive>
-      <allow_active>yes</allow_active>
-    </defaults>
-    <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/steamos-polkit-helpers/jupiter-biosupdate</annotate>
-  </action>
-
   <action id="org.valve.policykit.steamos.pkexec.run-steamos-polkit-helpers-steamos-set-hostname">
     <description>Set the hostname</description>
     <icon_name>package-x-generic</icon_name> 
@@ -105,5 +94,37 @@
     </defaults>
     <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/steamos-polkit-helpers/steamos-poweroff-now</annotate>
   </action>
-</policyconfig>
 
+  <action id="org.valve.policykit.steamos.pkexec.run-steamos-polkit-helpers-steamos-restart-sddm">
+    <description>Restart SDDM</description>
+    <icon_name>package-x-generic</icon_name>
+    <defaults>
+      <allow_any>yes</allow_any>
+      <allow_inactive>yes</allow_inactive>
+      <allow_active>yes</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/steamos-polkit-helpers/steamos-restart-sddm</annotate>
+  </action>
+
+  <action id="org.valve.policykit.steamos.pkexec.run-steamos-polkit-helpers-steamos-enable-sshd">
+    <description>Enable the SSH server</description>
+    <icon_name>package-x-generic</icon_name>
+    <defaults>
+      <allow_any>yes</allow_any>
+      <allow_inactive>yes</allow_inactive>
+      <allow_active>yes</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/steamos-polkit-helpers/steamos-enable-sshd</annotate>
+  </action>
+
+  <action id="org.valve.policykit.steamos.pkexec.run-steamos-polkit-helpers-steamos-disable-wireless-power-management">
+    <description>Disable wireless power management</description>
+    <icon_name>package-x-generic</icon_name>
+    <defaults>
+      <allow_any>yes</allow_any>
+      <allow_inactive>yes</allow_inactive>
+      <allow_active>yes</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/steamos-polkit-helpers/steamos-disable-wireless-power-management</annotate>
+  </action>
+</policyconfig>

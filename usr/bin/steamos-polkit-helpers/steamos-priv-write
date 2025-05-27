@@ -1,40 +1,103 @@
 #!/bin/bash
 
-set -eu
+set -euo pipefail
+shopt -s nullglob
 
 if [[ $EUID -ne 0 ]];
 then
     exec pkexec --disable-internal-agent "$0" "$@"
 fi
 
-WRITE_PATH="$1"
+WRITE_PATH=$(realpath -s -- "$1")
 WRITE_VALUE="$2"
+
+function Log()
+{
+    printf "%s\n" "$*"
+    printf "%s\n" "$*" | systemd-cat -t p-steamos-priv-write -p warning
+}
+
+function MatchFilenamePattern()
+{
+    local path="$1"
+    local pattern="$2"
+    local IFS=
+    local candidates=($pattern)
+
+    for candidate in "${candidates[@]}"; do
+        if [[ "$path" == "$candidate" ]]; then
+            true
+            return
+        fi
+    done
+
+    false;
+    return;
+}
 
 function CommitWrite()
 {
-    echo "commit: $WRITE_VALUE -> $WRITE_PATH" | systemd-cat -t p-steamos-priv-write -p warning
-    chmod a+w "$WRITE_PATH"
-    echo "$WRITE_VALUE" > "$WRITE_PATH"
+    if [ -n "$WRITE_VALUE" ]; then
+        Log "commit: $WRITE_VALUE -> $WRITE_PATH"
+        printf "%s" "$WRITE_VALUE" > "$WRITE_PATH"
+    fi
+
+    chgrp deck "$WRITE_PATH"
+    chmod g+w "$WRITE_PATH"
     exit 0
 }
 
 function DeclineWrite()
 {
-    echo "decline: $WRITE_VALUE -> $WRITE_PATH" | systemd-cat -t p-steamos-priv-write -p err
+    Log "decline: $WRITE_VALUE -> $WRITE_PATH"
     exit 1
 }
 
-echo "checking: $WRITE_PATH" | systemd-cat -t p-steamos-priv-write -p warning
-if [[ "$WRITE_PATH" == /sys/class/backlight/*/brightness ]]; then
+
+Log "checking: $WRITE_PATH"
+
+if MatchFilenamePattern "$WRITE_PATH" "/sys/class/backlight/*/brightness"; then
+    CommitWrite
+fi
+
+if MatchFilenamePattern "$WRITE_PATH" "/dev/drm_dp_aux0"; then
    CommitWrite
 fi
 
-if [[ "$WRITE_PATH" == /sys/devices/*/*/*/*/hwmon/hwmon*/led_brightness ]]; then
-   CommitWrite
+if MatchFilenamePattern "$WRITE_PATH" "/sys/class/drm/card*/device/power_dpm_force_performance_level"; then
+    CommitWrite
 fi
 
-if [[ "$WRITE_PATH" == /sys/devices/*/*/*/*/hwmon/hwmon*/content_adaptive_brightness ]]; then
-   CommitWrite
+if MatchFilenamePattern "$WRITE_PATH" "/sys/class/drm/card*/device/pp_od_clk_voltage"; then
+    CommitWrite
+fi
+
+if MatchFilenamePattern "$WRITE_PATH" "/sys/class/hwmon/hwmon*/power*_cap"; then
+    CommitWrite
+fi
+
+if MatchFilenamePattern "$WRITE_PATH" "/sys/devices/platform/*/*/*/iio:device*/in_illuminance_integration_time"; then
+    CommitWrite
+fi
+
+if MatchFilenamePattern "$WRITE_PATH" "/sys/devices/*/*/*/*/hwmon/hwmon*/led_brightness"; then
+    CommitWrite
+fi
+
+if MatchFilenamePattern "$WRITE_PATH" "/sys/devices/*/*/*/*/hwmon/hwmon*/content_adaptive_brightness"; then
+    CommitWrite
+fi
+
+if MatchFilenamePattern "$WRITE_PATH" "/sys/devices/platform/*/i2c-2/i2c-*/brightness"; then
+    CommitWrite
+fi
+
+if MatchFilenamePattern "$WRITE_PATH" "/sys/devices/platform/*/i2c-2/i2c-*/bmode"; then
+    CommitWrite
+fi
+
+if MatchFilenamePattern "$WRITE_PATH" "/sys/class/leds/status:white/led_brightness_multiplier"; then
+    CommitWrite
 fi
 
 DeclineWrite

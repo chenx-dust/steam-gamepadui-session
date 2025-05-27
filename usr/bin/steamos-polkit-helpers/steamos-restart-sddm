@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -eu
+
+if [[ $EUID -ne 0 ]];
+then
+    exec pkexec --disable-internal-agent "$0" "$@"
+fi
+
+# To restart other desktop manager
+
+restart_if_running() {
+    local service_name="$1"
+
+    if systemctl is-active --quiet "$service_name"; then
+        exec systemctl restart "$service_name"
+    fi
+}
+
+restart_if_running sddm
+restart_if_running gdm
+restart_if_running lightdm
+restart_if_running lxdm
