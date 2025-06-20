@@ -26,7 +26,7 @@ function MatchFilenamePattern()
     local candidates=($pattern)
 
     for candidate in "${candidates[@]}"; do
-        if [[ "$path" == $candidate ]]; then
+        if [[ "$path" == "$candidate" ]]; then
             true
             return
         fi
