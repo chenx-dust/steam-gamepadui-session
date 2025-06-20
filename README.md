@@ -31,6 +31,8 @@ If still black screen, please be sure that you have launched Steam client in oth
 
 About overlay and input method, you could install them via optional requirement of this package.
 
+You could choose [`gamescope-session-sk-git`](https://github.com/honjow/gamescope-session) as an alternative of [`gamescope-session`](https://github.com/ChimeraOS/gamescope-session) package with device-specific adaptations.
+
 If you face with compatibility issue or known bugs on Gamescope, you may try other version of it:
 
 - [`gamescope-sk`](https://aur.archlinux.org/packages/gamescope-sk): Actively mantained version that adopts many useful patches.

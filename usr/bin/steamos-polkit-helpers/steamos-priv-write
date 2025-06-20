@@ -5,11 +5,12 @@ shopt -s nullglob
 
 if [[ $EUID -ne 0 ]];
 then
-    exec pkexec --disable-internal-agent "$0" "$@"
+    exec pkexec --disable-internal-agent "$0" "$@" "$EUID"
 fi
 
 WRITE_PATH=$(realpath -s -- "$1")
 WRITE_VALUE="$2"
+ORIGINAL_EUID="$3"
 
 function Log()
 {
@@ -25,7 +26,7 @@ function MatchFilenamePattern()
     local candidates=($pattern)
 
     for candidate in "${candidates[@]}"; do
-        if [[ "$path" == "$candidate" ]]; then
+        if [[ "$path" == $candidate ]]; then
             true
             return
         fi
@@ -42,7 +43,7 @@ function CommitWrite()
         printf "%s" "$WRITE_VALUE" > "$WRITE_PATH"
     fi
 
-    chgrp deck "$WRITE_PATH"
+    chgrp "$ORIGINAL_EUID" "$WRITE_PATH"
     chmod g+w "$WRITE_PATH"
     exit 0
 }
