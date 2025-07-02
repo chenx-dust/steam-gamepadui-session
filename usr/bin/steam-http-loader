@@ -19,7 +19,7 @@ def main():
 
     # convert mailto://A@b.com to steam://mailto/A@b.com
     if (url.scheme == 'mailto'):
-        run('mailto', url.netloc)
+        run('mailto', url.path or url.netloc)
         return
 
     # open any other URL, converting paths to full file URIs

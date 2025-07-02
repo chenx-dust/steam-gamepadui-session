@@ -8,8 +8,10 @@ function short_session_recover {
     if [[ -f "/usr/lib/steam/bootstraplinux_ubuntu12_32.tar.xz" ]]; then
         tar xf /usr/lib/steam/bootstraplinux_ubuntu12_32.tar.xz -C ~/.local/share/Steam
     fi
-    # change session to desktop as fallback
-    steamos-session-select desktop
+    if command -v steamos-session-select > /dev/null; then
+      # change session to desktop as fallback
+      steamos-session-select desktop
+    fi
 }
 
 function post_gamescope_start {
@@ -21,6 +23,9 @@ function post_gamescope_start {
 
 # Show VRR controls in Steam
 export STEAM_GAMESCOPE_VRR_SUPPORTED=1
+
+# When set to 1, a toggle will show up in the steamui to control whether dynamic refresh rate is applied to the steamui
+export STEAM_GAMESCOPE_DYNAMIC_REFRESH_IN_STEAM_SUPPORTED=0
 
 # Enable Mangoapp
 export STEAM_MANGOAPP_PRESETS_SUPPORTED=1
@@ -73,6 +78,9 @@ export STEAM_GAMESCOPE_NIS_SUPPORTED=1
 # Let steam know it can unmount drives without superuser privileges
 export STEAM_ALLOW_DRIVE_UNMOUNT=1
 
+# Allow formatting external drives
+export STEAM_ALLOW_DRIVE_ADOPT=1
+
 # We no longer need to set GAMESCOPE_EXTERNAL_OVERLAY from steam, mangoapp now does it itself
 export STEAM_DISABLE_MANGOAPP_ATOM_WORKAROUND=1
 
@@ -86,6 +94,9 @@ export STEAM_GAMESCOPE_FANCY_SCALING_SUPPORT=1
 export STEAM_GAMESCOPE_COLOR_MANAGED=1
 export STEAM_GAMESCOPE_VIRTUAL_WHITE=1
 
+# HDMI-CEC support
+export STEAM_ENABLE_CEC=1
+
 # Set input method modules for Qt/GTK that will show the Steam keyboard
 export QT_IM_MODULE=steam
 export GTK_IM_MODULE=Steam
@@ -94,8 +105,6 @@ export GTK_IM_MODULE=Steam
 if [ -f "/usr/share/steamos/steamos.png" ] ; then
   export STEAM_UPDATEUI_PNG_BACKGROUND=/usr/share/steamos/steamos.png
 fi
-
-export CURSOR_FILE="/usr/share/steamos/steamos-cursor.png"
 
 export CLIENTCMD="steam -gamepadui -steamos3 -steampal -steamdeck"
 

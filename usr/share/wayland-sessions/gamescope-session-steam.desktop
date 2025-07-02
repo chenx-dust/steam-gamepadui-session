@@ -3,5 +3,6 @@ Encoding=UTF-8
 Name=SteamOS (gamescope)
 Comment=Steam Big Picture session
 Exec=gamescope-session-plus steam
+Icon=steamicon.png
 Type=Application
 DesktopNames=gamescope
