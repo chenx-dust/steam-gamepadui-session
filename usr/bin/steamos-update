@@ -9,6 +9,7 @@
 # steamos-update --enable-duplicate-detection       -- should perform an update
 # steamos-update                                    -- should perform an update
 
+set -e
 
 while [[ $# -gt 0 ]]; do
   case $1 in
@@ -40,47 +41,34 @@ function clean_progress {
 }
 
 function check_for_updates {
-  if command -v frzr-deploy > /dev/null; then
-    frzr-deploy --check
-    if [ $? -eq 0 ]; then
-      exit 0
-    fi
+  if ! pacman -Syy > /dev/null 2>&1; then
+    exit $?
   fi
 
-  checkupdates
-  if [ $? -eq 0 ]; then
-    exit 7 # tells Steam client there is no update to perform
-  else
+  if pacman -Qu > /dev/null 2>&1; then
     exit 0
+  else
+    exit 7 # tells Steam client there is no update to perform
   fi
 }
 
 function do_update {
-  STATUS=7
-  if command -v frzr-deploy > /dev/null; then
-    frzr-deploy --steam-progress
-    STATUS=$?
+  # pacman update
+  set -o pipefail
+  TOTAL=$(pacman -Qu | wc -l)
+  if [ $? -ne 0 ]; then
+    exit 7 # no update available
   fi
-
-  if [ $? -eq 7 ]; then
-    # pacman update
-    set -o pipefail
-    TOTAL=$(checkupdates | wc -l)
-    if [ $? -ne 0 ]; then
-        exit 7 # no update available
-    fi
-    pacman -Syu --noconfirm 2>&1 | grep --line-buffered -E 'downloading|upgrading' | awk '{print ++count;fflush()}' | clean_progress $((TOTAL * 2 + 3)) '%'
-  fi
+  pacman -Syu --noconfirm 2>&1 | \
+    grep --line-buffered -E 'downloading|upgrading' | \
+    awk '{print ++count;fflush()}' | \
+    clean_progress $((TOTAL * 2 + 3)) '%'
 }
 
-if command -v frzr-deploy > /dev/null; then
-  if [ -n "$CHECK" ]; then
-    check_for_updates
-  elif [ -n "$EXIT" ]; then
-    exit 0
-  else
-    do_update
-  fi
+if [ -n "$CHECK" ]; then
+  check_for_updates
+elif [ -n "$EXIT" ]; then
+  exit 0
 else
-    exit 7 # tells Steam client there is no update to perform
+  do_update
 fi
