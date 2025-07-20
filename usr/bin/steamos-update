@@ -9,7 +9,7 @@
 # steamos-update --enable-duplicate-detection       -- should perform an update
 # steamos-update                                    -- should perform an update
 
-set -e
+set -o pipefail
 
 while [[ $# -gt 0 ]]; do
   case $1 in
@@ -56,7 +56,6 @@ function check_for_updates {
 
 function do_update {
   # pacman update
-  set -o pipefail
   TOTAL=$(pacman -Qu | wc -l)
   if [ $? -ne 0 ]; then
     exit 7 # no update available
