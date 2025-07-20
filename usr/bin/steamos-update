@@ -45,8 +45,9 @@ function check_for_updates {
     exit $?
   fi
 
-  if pacman -Qu > /dev/null 2>&1; then
-    echo "Update available: rolling"
+  TOTAL=$(pacman -Qu | wc -l)
+  if [ $? -eq 0 ]; then
+    printf "Upgrade:\u00a0%d\u00a0Packages\n" $TOTAL
     exit 0
   else
     exit 7 # tells Steam client there is no update to perform
