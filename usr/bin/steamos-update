@@ -64,6 +64,7 @@ function do_update {
     grep --line-buffered -E 'downloading|upgrading' | \
     awk '{print ++count;fflush()}' | \
     clean_progress $((TOTAL * 2 + 3)) '%'
+  exit 7
 }
 
 if [ -n "$CHECK" ]; then
