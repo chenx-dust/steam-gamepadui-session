@@ -42,7 +42,7 @@ function clean_progress {
 
 function check_for_updates {
   if ! pacman -Syy > /dev/null 2>&1; then
-    exit $?
+    exit 1
   fi
 
   TOTAL=$(pacman -Qu | wc -l)
